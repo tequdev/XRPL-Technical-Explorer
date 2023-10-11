@@ -30,6 +30,7 @@ export default {
     })
 
     const net = {
+<<<<<<< HEAD
       live: endpoint === '' || endpoint.match(/xrplcluster|xrpl\.ws|xrpl\.link|s[12]\.ripple\.com/),
       test: endpoint.match(/rippletest|\/testnet\.xrpl-labs/),
 <<<<<<< HEAD
@@ -40,6 +41,13 @@ export default {
       hooks: endpoint.match(/hooks|custom-node/),
       local: endpoint.match(/localhost|0.0.0.0/)
 >>>>>>> 420defa (add custom node)
+=======
+      xrpl: endpoint === '' || endpoint.match(/xrplcluster|xrpl\.ws|xrpl\.link|s[12]\.ripple\.com/),
+      xrpl_test: endpoint.match(/rippletest|\/testnet\.xrpl-labs/),
+      xahau: endpoint.match(/xahau/),
+      xahau_test: endpoint.match(/xahau.test/),
+      local: endpoint.match(/localhost|0.0.0.0|custom-node/)
+>>>>>>> 6c1ccd4 (update to xahau)
     }
 
     Vue.prototype.$net = net

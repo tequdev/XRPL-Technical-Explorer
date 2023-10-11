@@ -8,9 +8,10 @@
     'bg-warning navbar-light': $router.options.endpoint !== ''
 =======
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark" :class="{
-    'bg-blue': nodeSelectLabel.match(/Main/),
-    'bg-success': nodeSelectLabel.match(/Test/),
-    'bg-info': nodeSelectLabel.match(/Hooks|custom-node/),
+    'bg-blue': nodeSelectLabel.match(/Xrpl Mainnet/),
+    'bg-success': nodeSelectLabel.match(/Xrpl Testnet/),
+    'bg-red': nodeSelectLabel.match(/Xahau Mainnet/),
+    'bg-orange': nodeSelectLabel.match(/Xahau Testnet/),
     'bg-info': nodeSelectLabel.match(/Local|custom-node/)
 >>>>>>> 420defa (add custom node)
   }" aria-label="Main navigation">
@@ -29,6 +30,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ nodeSelectLabel }}</a>
             <ul class="dropdown-menu shadow" aria-labelledby="dropdown01">
 <<<<<<< HEAD
+<<<<<<< HEAD
               <li><a class="dropdown-item" href="https://explorer.xrplf.org"><b>XRPL Mainnet</b></a></li>
               <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">XRPL Testnet</a></li>
               <li><a class="dropdown-item" href="https://explorer.xahau.network"><b>Xahau Mainnet</b></a></li>
@@ -39,6 +41,13 @@
               <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">Testnet</a></li>
               <li><a class="dropdown-item" href="https://hooks-testnet-v3-explorer.xrpl-labs.com">Hooks Testnet V3</a></li>
 >>>>>>> 420defa (add custom node)
+=======
+              <li><a class="dropdown-item" href="https://xahau.network">Xahau Mainnet</a></li>
+              <li><a class="dropdown-item" href="https://xahau-test.network">Xahau Testnet</a></li>
+              <li><a class="dropdown-item" href="https://explorer.xrplf.org"><b>Xrpl Mainnet</b></a></li>
+              <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">Xrpl Testnet</a></li>
+              <li><a class="dropdown-item" href="http://localhost:4000"><b>Localhost (:6006)</b></a></li>
+>>>>>>> 6c1ccd4 (update to xahau)
             </ul>
           </li>
           <li v-else>
@@ -73,6 +82,7 @@ export default {
   computed: {
     nodeSelectLabel () {
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (this.$net.custom) return 'Custom Network'
       if (this.$net.test) return 'XRPL Testnet (Change)'
       if (this.$net.xahaulive) return 'Xahau Mainnet (Change)'
@@ -82,15 +92,26 @@ export default {
 =======
       if (this.$net.test) {
         return 'Testnet (Change)'
+=======
+      if (this.$net.xrpl) {
+        return 'Xrpl Testnet (Change)'
+>>>>>>> 6c1ccd4 (update to xahau)
       }
-      if (this.$net.hooks) {
-        return 'Hooks (Change)'
+      if (this.$net.xrpl_test) {
+        return 'Xrpl Mainnet (Change)'
+      }
+      if (this.$net.xahau_test) {
+        return 'Xahau Testnet (Change)'
       }
       if (this.$net.local) {
         return 'Local (Change)'
       }
+<<<<<<< HEAD
       return 'Mainnet (Change)'
 >>>>>>> 420defa (add custom node)
+=======
+      return 'Xahau Mainnet (Change)'
+>>>>>>> 6c1ccd4 (update to xahau)
     },
     validQuery () {
       const commands = this.$router.options.routes.filter(r => {
