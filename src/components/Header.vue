@@ -1,24 +1,15 @@
 <template>
-<<<<<<< HEAD
-  <nav class="navbar navbar-expand-lg fixed-top" :class="{
-    'navbar-dark bg-blue': nodeSelectLabel.match(/XRPL.*Main/),
-    'navbar-dark bg-success': nodeSelectLabel.match(/XRPL.*Test/),
-    'navbar-dark bg-info': nodeSelectLabel.match(/Xahau.*Main/),
-    'navbar-dark bg-danger': nodeSelectLabel.match(/Xahau.*Test/),
-    'bg-warning navbar-light': $router.options.endpoint !== ''
-=======
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark" :class="{
     'bg-blue': nodeSelectLabel.match(/Xrpl Mainnet/),
     'bg-success': nodeSelectLabel.match(/Xrpl Testnet/),
-    'bg-red': nodeSelectLabel.match(/Xahau Mainnet/),
-    'bg-orange': nodeSelectLabel.match(/Xahau Testnet/),
+    'bg-orange': nodeSelectLabel.match(/Xahau Mainnet/),
+    'bg-red': nodeSelectLabel.match(/Xahau Testnet/),
     'bg-info': nodeSelectLabel.match(/Local|custom-node/)
->>>>>>> 420defa (add custom node)
   }" aria-label="Main navigation">
     <div class="container-fluid">
       <router-link class="nes nav navbar-brand" to="/">
-        <span class="d-block d-md-none">{{ nodeSelectLabel.match(/xahau/i) ? 'Xahau ': (nodeSelectLabel.match(/xrpl/i) ? 'XRPL ' : '') }}<small>Explorer</small></span>
-        <span class="d-none d-md-block">{{ nodeSelectLabel.match(/xahau/i) ? 'Xahau ': (nodeSelectLabel.match(/xrpl/i) ? 'XRP Ledger ' : '') }} Explorer</span>
+        <span class="d-block d-md-none">XRPL <small>Explorer</small></span>
+        <span class="d-none d-md-block">XRP Ledger Explorer</span>
       </router-link>
       <button class="navbar-toggler p-0 border-0" type="button" @click="navbarCollapsed = !navbarCollapsed" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,32 +17,15 @@
 
       <div class="navbar-collapse offcanvas-collapse" :class="{open: navbarCollapsed}">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown" v-if="$router.options.endpoint === ''">
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ nodeSelectLabel }}</a>
             <ul class="dropdown-menu shadow" aria-labelledby="dropdown01">
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <li><a class="dropdown-item" href="https://explorer.xrplf.org"><b>XRPL Mainnet</b></a></li>
-              <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">XRPL Testnet</a></li>
-              <li><a class="dropdown-item" href="https://explorer.xahau.network"><b>Xahau Mainnet</b></a></li>
-              <li><a class="dropdown-item" href="https://explorer.xahau-test.net">Xahau Testnet</a></li>
-=======
-              <li><a class="dropdown-item" href="http://localhost:4000"><b>Localhost (:6006)</b></a></li>
-              <li><a class="dropdown-item" href="https://explorer.xrplf.org"><b>Mainnet</b></a></li>
-              <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">Testnet</a></li>
-              <li><a class="dropdown-item" href="https://hooks-testnet-v3-explorer.xrpl-labs.com">Hooks Testnet V3</a></li>
->>>>>>> 420defa (add custom node)
-=======
               <li><a class="dropdown-item" href="https://xahau.network">Xahau Mainnet</a></li>
               <li><a class="dropdown-item" href="https://xahau-test.network">Xahau Testnet</a></li>
               <li><a class="dropdown-item" href="https://explorer.xrplf.org"><b>Xrpl Mainnet</b></a></li>
               <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">Xrpl Testnet</a></li>
               <li><a class="dropdown-item" href="http://localhost:4000"><b>Localhost (:6006)</b></a></li>
->>>>>>> 6c1ccd4 (update to xahau)
             </ul>
-          </li>
-          <li v-else>
-            <span class="nav-link text-primary" style="position: relative; max-width: calc(30vw); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><b>{{ $router.options.endpoint }}</b></span>
           </li>
           <li class="nav-item">
             <a class="nav-link" style="white-space: nowrap;" href="https://github.com/XRPLF/XRPL-Technical-Explorer" target="_blank"><i class="fab fa-github-square"></i><span class="ps-2">Source</span></a>
@@ -88,23 +62,7 @@ export default {
   },
   computed: {
     nodeSelectLabel () {
-<<<<<<< HEAD
-<<<<<<< HEAD
-      if (this.$net.custom) return 'Custom Network'
-      if (this.$net.test) return 'XRPL Testnet (Change)'
-      if (this.$net.xahaulive) return 'Xahau Mainnet (Change)'
-      if (this.$net.xahautest) return 'Xahau Testnet (Change)'
-
-      return 'XRPL Mainnet (Change)'
-=======
-      if (this.$net.test) {
-        return 'Testnet (Change)'
-=======
       if (this.$net.xrpl) {
-        return 'Xrpl Testnet (Change)'
->>>>>>> 6c1ccd4 (update to xahau)
-      }
-      if (this.$net.xrpl_test) {
         return 'Xrpl Mainnet (Change)'
       }
       if (this.$net.xahau_test) {
@@ -113,12 +71,7 @@ export default {
       if (this.$net.local) {
         return 'Local (Change)'
       }
-<<<<<<< HEAD
-      return 'Mainnet (Change)'
->>>>>>> 420defa (add custom node)
-=======
       return 'Xahau Mainnet (Change)'
->>>>>>> 6c1ccd4 (update to xahau)
     },
     validQuery () {
       const commands = this.$router.options.routes.filter(r => {
@@ -171,7 +124,7 @@ export default {
           navTo = '/' + this.validQuery[0]
         }
         if (this.validQuery.length > 1) {
-          // console.log(this.validQuery)
+          console.log(this.validQuery)
           navTo = '/command'
           // console.log(this.validQuery)
           Object.assign(navQuery, {
@@ -179,7 +132,7 @@ export default {
           })
         }
       }
-      // console.log(navTo)
+      console.log(navTo)
       if (
         navTo &&
         (
