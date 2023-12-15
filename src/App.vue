@@ -50,7 +50,7 @@ export default {
     .bg-purple { background-color: #6626EB; color: white; }
     .bg-navy { background-color: #0A023D; color: white; }
     .bg-orange { background-color: #ED7035; color: white; }
-    .bg-yellow { background-color: #FFFD88; color: white; }
+    .bg-yellow { background-color: #a29e13; color: white; }
 
     .bg-card { background-color: #0C1637; }
     .bg-card-header { background-color: #3D4256; }
