@@ -12,6 +12,11 @@ import B2M from '../views/B2M.vue'
 import HookNamespace from '../views/HookNamespace.vue'
 import XummPayload from '../views/XummPayload.vue'
 import LedgerPayload from '../views/LedgerPayload.vue'
+import Dashboard from '../views/Dashboard.vue'
+import MyHook from '../views/MyHook.vue'
+import IpfsPayload from '../views/IpfsPayload.vue'
+import IpfsViewer from '../views/IpfsViewer.vue'
+import IpnsViewer from '../views/IpnsViewer.vue'
 import GenericData from '../components/GenericData.vue'
 import { groupedCommands } from '../plugins/commands'
 
@@ -29,13 +34,33 @@ const routes = [
     component: Home
   },
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard
+  },
+  {
+    path: '/ipfs/payload',
+    name: 'ipfs_payload',
+    component: IpfsPayload
+  },
+  {
+    path: '/ipfs/viewer/:entry([a-fA-F0-9]{64})',
+    name: 'ipfs_viewer',
+    component: IpfsViewer
+  },
+  {
+    path: '/ipns/viewer/:entry([a-fA-F0-9]{64})',
+    name: 'ipns_viewer',
+    component: IpnsViewer
+  },
+  {
     path: '/wallets/xumm',
-    name: 'home',
+    name: 'wallets_xumm',
     component: XummPayload
   },
   {
     path: '/wallets/ledger',
-    name: 'home',
+    name: 'wallets_ledger',
     component: LedgerPayload
   },
   {
@@ -57,6 +82,11 @@ const routes = [
     path: '/entry/:hash([a-fA-F0-9]{64})',
     name: 'ledgerentry',
     component: LedgerEntry
+  },
+  {
+    path: '/myhook/:hash([a-fA-F0-9]{64})',
+    name: 'myhook',
+    component: MyHook
   },
   {
     path: '/:account(r[a-zA-Z0-9]{15,})',
