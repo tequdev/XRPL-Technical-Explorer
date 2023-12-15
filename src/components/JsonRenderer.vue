@@ -39,6 +39,11 @@ import { hookHashToLedgerObjectHash } from '../plugins/helpers'
 // import { decode, decodeLedgerData } from 'ripple-binary-codec'
 import { decode } from 'ripple-binary-codec'
 
+const RIPPLE_EPOCH_DIFF = 0x386d4380
+function rippleTimeToUnixTime (rpepoch) {
+  return (rpepoch + RIPPLE_EPOCH_DIFF) * 1000
+}
+
 export default {
   name: 'JsonRenderer',
   props: ['data'],
@@ -46,9 +51,16 @@ export default {
     VueJsonPretty
   },
   data () {
-    return {
-      formatted: null
+    const modifiedData = {}
+    console.log(this.data)
+    if (this.data?.date) {
+      Object.assign(modifiedData, {
+        date: new Date(rippleTimeToUnixTime(this.data?.date)).toISOString()
+      })
     }
+    return Object.assign({}, {
+      formatted: modifiedData
+    })
   },
   computed: {
     dataFormatted () {
