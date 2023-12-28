@@ -12,7 +12,7 @@ import B2M from '../views/B2M.vue'
 import HookNamespace from '../views/HookNamespace.vue'
 import XummPayload from '../views/XummPayload.vue'
 import LedgerPayload from '../views/LedgerPayload.vue'
-import Dashboard from '../views/Dashboard.vue'
+// import Dashboard from '../views/Dashboard.vue'
 import MyHook from '../views/MyHook.vue'
 import IpfsPayload from '../views/IpfsPayload.vue'
 import IpfsViewer from '../views/IpfsViewer.vue'
@@ -33,11 +33,11 @@ const routes = [
     name: 'home',
     component: Home
   },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Dashboard
-  },
+  // {
+  //   path: '/dashboard',
+  //   name: 'dashboard',
+  //   component: Dashboard
+  // },
   {
     path: '/ipfs/payload',
     name: 'ipfs_payload',
