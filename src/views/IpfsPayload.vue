@@ -51,7 +51,6 @@
 }
 </style>
 <script>
-import { Xumm } from 'xumm'
 import axios from 'axios'
 import { codemirror } from 'vue-codemirror'
 import Loading from '../components/Loading.vue'
@@ -117,16 +116,6 @@ export default {
   },
   methods: {
     prepare () {
-      /*const xumm = new Xumm('03f9aa01-a41e-4666-ad9d-f2de68514d8c')
-      xumm.environment.bearer?.then(async (idToken) => {
-        console.log(idToken)
-      })
-      xumm.authorize().catch((error) => {
-        this.data = { error: error.message }
-        this.loading = false
-        this.marker = null
-        this.errorResponse = true
-      })*/
       this.command = JSON.stringify({
         name: 'DAO Logo',
         description: 'Transia DAO Logo',
