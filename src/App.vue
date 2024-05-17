@@ -1,7 +1,6 @@
 <template>
   <div id="app" class="pb-4">
     <Header />
-    <ValidationsNav />
     <LedgerNav />
     <router-view/>
   </div>
@@ -10,13 +9,11 @@
 <script>
 import Header from './components/Header.vue'
 import LedgerNav from './components/LedgerNav.vue'
-import ValidationsNav from './components/ValidationsNav.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-    ValidationsNav,
     LedgerNav
     // Sample
   },
@@ -86,7 +83,7 @@ export default {
 
     .nav-scroller {
       position: fixed;
-      top: 100px;
+      top: 60px;
       z-index: 2;
       height: 2.75rem;
       overflow-y: hidden;
