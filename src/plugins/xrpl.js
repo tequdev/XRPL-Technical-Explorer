@@ -6,11 +6,15 @@ export default {
 
     const endpoint = String(process?.env?.VUE_APP_WSS_ENDPOINT || '')
 
-    const net = {
+    // VUE_APP_NETWORK (xrpl | xrpl_test | xahau | xahau_test | xahau_dev | local)
+    // overrides the endpoint-based guess, for self-hosted networks on any domain.
+    const forced = String(process?.env?.VUE_APP_NETWORK || '')
+    const net = forced ? { [forced]: true } : {
       xrpl: endpoint === '' || endpoint.match(/xrplcluster|xrpl\.ws|xrpl\.link|s[12]\.ripple\.com/),
       xrpl_test: endpoint.match(/rippletest|\/testnet\.xrpl-labs/),
       xahau: endpoint.match(/xahau.network/),
       xahau_test: endpoint.match(/xahau-test.net/),
+      xahau_dev: endpoint.match(/xahau-dev/),
       local: endpoint.match(/localhost|127.0.0.1|custom-node/)
     }
 

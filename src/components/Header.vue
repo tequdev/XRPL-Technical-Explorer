@@ -4,6 +4,7 @@
     'bg-orange': nodeSelectLabel.match(/Xrpl Testnet/),
     'bg-navy': nodeSelectLabel.match(/Xahau Mainnet/),
     'bg-yellow': nodeSelectLabel.match(/Xahau Testnet/),
+    'bg-green': nodeSelectLabel.match(/Xahau Devnet/),
     'bg-info': nodeSelectLabel.match(/Local|custom-node/)
   }" aria-label="Main navigation">
     <div class="container-fluid">
@@ -67,6 +68,9 @@ export default {
       }
       if (this.$net.xahau_test) {
         return 'Xahau Testnet (Change)'
+      }
+      if (this.$net.xahau_dev) {
+        return 'Xahau Devnet (Change)'
       }
       if (this.$net.local) {
         return 'Local (Change)'

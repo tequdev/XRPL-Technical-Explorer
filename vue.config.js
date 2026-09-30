@@ -1,4 +1,6 @@
 module.exports = {
+  // @ledgerhq ships untranspiled class fields; webpack 4 can't parse them.
+  transpileDependencies: [/@ledgerhq/],
   devServer: {
     disableHostCheck: true
   },
