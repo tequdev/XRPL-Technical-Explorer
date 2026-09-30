@@ -9955,10 +9955,10 @@ ws@^6.0.0, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-xrpl-client@^1.8.0:
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/xrpl-client/-/xrpl-client-1.9.5.tgz#adab5ec233a8988178ddb77b764734f5986409f6"
-  integrity sha512-B8gt/NdYbBsZ1a6iiZcA4WyFoUvqDaESekyyzo3Q2zbesN65TbA6oRU8g86HK/ll/9qA9U4Aguh/R2OoEdRe2g==
+xrpl-client@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/xrpl-client/-/xrpl-client-2.4.0.tgz#5cfed5e8fb066f6c33cae5a9c7f0db9bfbf05e0c"
+  integrity sha512-UQiCHVtdqqXt5uzOEZzQZ+idXvVJDnXrTjaQ5wwYDAolI6YXSBZCXWaljdY8b10LEZqq6Xr8dMaSHivr8P4LIQ==
   dependencies:
     debug "^4.1.1"
     websocket "^1.0.34"
