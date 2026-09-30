@@ -2,13 +2,13 @@ import { XrplClient } from 'xrpl-client'
 
 export default {
   async install (Vue, options) {
-    let _endpoint = process?.env?.VUE_APP_WSS_ENDPOINT
+    const defaultEndpoint = process?.env?.VUE_APP_WSS_ENDPOINT
     const customEndpoint = options.router?.options?.endpoint
       ? options.router?.options?.endpoint
-      : typeof _endpoint === 'string' && _endpoint.match(/^\/[a-z0-9]/)
-        ? window.location.protocol.replace(/^http/, 'ws') + '//' + window.location.host + _endpoint
-        : typeof _endpoint === 'string' && _endpoint.match(/^:[0-9]+[/a-z0-9]{0,}/)
-          ? window.location.protocol.replace(/^http/, 'ws') + '//' + window.location.host.split(':')[0] + _endpoint
+      : typeof defaultEndpoint === 'string' && defaultEndpoint.match(/^\/[a-z0-9]/)
+        ? window.location.protocol.replace(/^http/, 'ws') + '//' + window.location.host + defaultEndpoint
+        : typeof defaultEndpoint === 'string' && defaultEndpoint.match(/^:[0-9]+[/a-z0-9]{0,}/)
+          ? window.location.protocol.replace(/^http/, 'ws') + '//' + window.location.host.split(':')[0] + defaultEndpoint
           : ''
 
     // console.log({
@@ -16,8 +16,9 @@ export default {
     //   customEndpoint
     // })
 
-    if (customEndpoint !== '') _endpoint = options.router.options.endpoint = customEndpoint
-    const endpoint = String(_endpoint || '')
+    let endpoint = defaultEndpoint
+    if (customEndpoint !== '') { endpoint = options.router.options.endpoint = customEndpoint }
+    endpoint = String(endpoint || '')
     // console.log(endpoint)
     Vue.prototype.$ws = new XrplClient(endpoint)
     Vue.prototype.$localnet = false
@@ -41,8 +42,19 @@ export default {
       local: endpoint.match(/localhost|127.0.0.1|custom-node/)
     }
 
-    net.custom = customEndpoint !== ''
+    net.custom = !net.xrpl && !net.xrpl_test && !net.xahau && !net.xahau_test && !net.xahau_dev && !net.local
     Vue.prototype.$net = net
+
+    const availableNets = [
+      { name: 'Xahau Mainnet', wss: 'wss://xahau.network' },
+      { name: 'Xahau Testnet', wss: 'wss://xahau-test.net' },
+      (defaultEndpoint.match(/xahau-dev/)) ? { name: 'Xahau Devnet', wss: '' } : {},
+      { name: 'XRPL Mainnet', wss: 'wss://xrplcluster.com' },
+      { name: 'XRPL Testnet', wss: 'wss://s.altnet.rippletest.net:51233' },
+      (!defaultEndpoint || defaultEndpoint.match(/localhost|127.0.0.1|custom-node/)) ? { name: 'Localhost', wss: !defaultEndpoint ? '' : defaultEndpoint } : {}
+    ].filter(obj => Object.values(obj)[0])
+
+    Vue.prototype.$available_nets = availableNets
 
     Vue.prototype.$ws.on('ledger', ledger => Vue.prototype.$events.emit('ledger', ledger))
     // console.info('Connecting @ `plugins/xrpl`')

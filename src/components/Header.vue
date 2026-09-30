@@ -1,12 +1,12 @@
 <template>
   <nav class="navbar navbar-expand-lg fixed-top" :class="{
-    'navbar-dark bg-purple': nodeSelectLabel.match(/Xrpl Mainnet/),
-    'navbar-dark bg-orange': nodeSelectLabel.match(/Xrpl Testnet/),
-    'navbar-dark bg-navy': nodeSelectLabel.match(/Xahau Mainnet/),
-    'navbar-dark bg-yellow': nodeSelectLabel.match(/Xahau Testnet/),
-    'navbar-dark bg-green': nodeSelectLabel.match(/Xahau Devnet/),
-    'navbar-dark bg-info': nodeSelectLabel.match(/Local|custom-node/),
-    'bg-warning navbar-light': $router.options.endpoint !== ''
+    'navbar-dark bg-purple': $net.xrpl,
+    'navbar-dark bg-orange': $net.xrpl_test,
+    'navbar-dark bg-navy': $net.xahau,
+    'navbar-dark bg-yellow': $net.xahau_test,
+    'navbar-dark bg-green': $net.xahau_dev,
+    'navbar-dark bg-info': $net.local,
+    'bg-warning navbar-light': $net.custom
   }" aria-label="Main navigation">
     <div class="container-fluid">
       <router-link class="nes nav navbar-brand" to="/">
@@ -19,17 +19,15 @@
 
       <div class="navbar-collapse offcanvas-collapse" :class="{open: navbarCollapsed}">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown" v-if="$router.options.endpoint === ''">
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ nodeSelectLabel }}</a>
             <ul class="dropdown-menu shadow" aria-labelledby="dropdown01">
-              <li><a class="dropdown-item" href="https://xahau.network">Xahau Mainnet</a></li>
-              <li><a class="dropdown-item" href="https://xahau-test.network">Xahau Testnet</a></li>
-              <li><a class="dropdown-item" href="https://explorer.xrplf.org"><b>Xrpl Mainnet</b></a></li>
-              <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">Xrpl Testnet</a></li>
-              <li><a class="dropdown-item" href="http://localhost:4000"><b>Localhost (:6006)</b></a></li>
+            <template v-for="net in $available_nets">
+              <li :key="net.wss"><a class="dropdown-item" :href="`/${net.wss.replace(/^(wss?):\/\//, '$1:')}`">{{ net.name }}</a></li>
+            </template>
             </ul>
           </li>
-          <li v-else>
+          <li v-if="$net.custom">
             <span class="nav-link text-primary" style="position: relative; max-width: calc(30vw); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><b>{{ $router.options.endpoint }}</b></span>
           </li>
           <li class="nav-item">
@@ -38,6 +36,7 @@
           <li class="nav-item">
             <a class="nav-link" style="white-space: nowrap;" href="/command"><i class="fa-solid fa-webhook"></i><span class="ps-2">Commands</span></a>
           </li>
+          <!--
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Select Wallet</a>
             <ul class="dropdown-menu shadow" aria-labelledby="dropdown01">
@@ -45,6 +44,7 @@
               <li><a class="dropdown-item" href="/wallets/ledger">Ledger</a></li>
             </ul>
           </li>
+          -->
         </ul>
         <form class="d-flex" @submit="search">
           <input v-model="query" class="form-control border border-2 border-dark py-0 me-2" type="search" placeholder="Search" aria-label="Search">
