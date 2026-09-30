@@ -57,7 +57,7 @@ export default {
       return this.selectedLedger?.ledger?.transactions?.map(l => {
         const r = {
           hash: l.hash,
-          type: l.TransactionType
+          TransactionType: l.TransactionType
         }
         const keys = Object.keys(l)
         const addKeys = [
@@ -71,6 +71,17 @@ export default {
         addKeys.forEach(k => {
           if (keys.indexOf(k) > -1) {
             Object.assign(r, { [k]: l[k] })
+          }
+        })
+
+        const metadataKeys = Object.keys(l.metaData || {})
+        const addMetadataKeys = [
+          'HookExecutions',
+          'TransactionResult'
+        ]
+        addMetadataKeys.forEach(k => {
+          if (metadataKeys.indexOf(k) > -1) {
+            Object.assign(r, { [k]: l.metaData[k] })
           }
         })
 

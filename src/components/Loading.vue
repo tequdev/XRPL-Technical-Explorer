@@ -6,7 +6,7 @@
           <div class="fa-3x">
             <i class="fas fa-circle-notch fa-spin"></i>
           </div>
-          <div class="mt-3">Yo, XRP Ledger!?</div>
+          <div class="mt-3">Yo, {{ $net.xrpl || $net.xrpl_test ? 'XRP Ledger' : $net.xahau || $net.xahau_test || $net.xahau_dev ? 'Xahau' : $net.local ? 'Local Network' : $net.custom ? 'Custom Network' : 'Unknown Network' }}!?</div>
           <div class="mt-2 pre">Loading...</div>
         </div>
       </div>
