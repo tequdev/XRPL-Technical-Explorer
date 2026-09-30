@@ -1,16 +1,17 @@
 <template>
-  <nav class="navbar navbar-expand-lg fixed-top navbar-dark" :class="{
-    'bg-purple': nodeSelectLabel.match(/Xrpl Mainnet/),
-    'bg-orange': nodeSelectLabel.match(/Xrpl Testnet/),
-    'bg-navy': nodeSelectLabel.match(/Xahau Mainnet/),
-    'bg-yellow': nodeSelectLabel.match(/Xahau Testnet/),
-    'bg-green': nodeSelectLabel.match(/Xahau Devnet/),
-    'bg-info': nodeSelectLabel.match(/Local|custom-node/)
+  <nav class="navbar navbar-expand-lg fixed-top" :class="{
+    'navbar-dark bg-purple': nodeSelectLabel.match(/Xrpl Mainnet/),
+    'navbar-dark bg-orange': nodeSelectLabel.match(/Xrpl Testnet/),
+    'navbar-dark bg-navy': nodeSelectLabel.match(/Xahau Mainnet/),
+    'navbar-dark bg-yellow': nodeSelectLabel.match(/Xahau Testnet/),
+    'navbar-dark bg-green': nodeSelectLabel.match(/Xahau Devnet/),
+    'navbar-dark bg-info': nodeSelectLabel.match(/Local|custom-node/),
+    'bg-warning navbar-light': $router.options.endpoint !== ''
   }" aria-label="Main navigation">
     <div class="container-fluid">
       <router-link class="nes nav navbar-brand" to="/">
-        <span class="d-block d-md-none">XRPL <small>Explorer</small></span>
-        <span class="d-none d-md-block">XRP Ledger Explorer</span>
+        <span class="d-block d-md-none">{{ nodeSelectLabel.match(/xahau/i) ? 'Xahau ': (nodeSelectLabel.match(/xrpl/i) ? 'XRPL ' : '') }}<small>Explorer</small></span>
+        <span class="d-none d-md-block">{{ nodeSelectLabel.match(/xahau/i) ? 'Xahau ': (nodeSelectLabel.match(/xrpl/i) ? 'XRP Ledger ' : '') }} Explorer</span>
       </router-link>
       <button class="navbar-toggler p-0 border-0" type="button" @click="navbarCollapsed = !navbarCollapsed" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,7 +19,7 @@
 
       <div class="navbar-collapse offcanvas-collapse" :class="{open: navbarCollapsed}">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" v-if="$router.options.endpoint === ''">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{ nodeSelectLabel }}</a>
             <ul class="dropdown-menu shadow" aria-labelledby="dropdown01">
               <li><a class="dropdown-item" href="https://xahau.network">Xahau Mainnet</a></li>
@@ -27,6 +28,9 @@
               <li><a class="dropdown-item" href="https://explorer-testnet.xrplf.org">Xrpl Testnet</a></li>
               <li><a class="dropdown-item" href="http://localhost:4000"><b>Localhost (:6006)</b></a></li>
             </ul>
+          </li>
+          <li v-else>
+            <span class="nav-link text-primary" style="position: relative; max-width: calc(30vw); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><b>{{ $router.options.endpoint }}</b></span>
           </li>
           <li class="nav-item">
             <a class="nav-link" style="white-space: nowrap;" href="https://github.com/XRPLF/XRPL-Technical-Explorer" target="_blank"><i class="fab fa-github-square"></i><span class="ps-2">Source</span></a>
@@ -63,6 +67,9 @@ export default {
   },
   computed: {
     nodeSelectLabel () {
+      if (this.$net.custom) {
+        return 'Custom Network'
+      }
       if (this.$net.xrpl) {
         return 'Xrpl Mainnet (Change)'
       }
@@ -128,7 +135,7 @@ export default {
           navTo = '/' + this.validQuery[0]
         }
         if (this.validQuery.length > 1) {
-          console.log(this.validQuery)
+          // console.log(this.validQuery)
           navTo = '/command'
           // console.log(this.validQuery)
           Object.assign(navQuery, {
@@ -136,7 +143,7 @@ export default {
           })
         }
       }
-      console.log(navTo)
+      // console.log(navTo)
       if (
         navTo &&
         (

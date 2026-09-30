@@ -2,9 +2,32 @@ import { XrplClient } from 'xrpl-client'
 
 export default {
   async install (Vue, options) {
-    Vue.prototype.$ws = new XrplClient(process?.env?.VUE_APP_WSS_ENDPOINT)
+    let _endpoint = process?.env?.VUE_APP_WSS_ENDPOINT
+    const customEndpoint = options.router?.options?.endpoint
+      ? options.router?.options?.endpoint
+      : typeof _endpoint === 'string' && _endpoint.match(/^\/[a-z0-9]/)
+        ? window.location.protocol.replace(/^http/, 'ws') + '//' + window.location.host + _endpoint
+        : typeof _endpoint === 'string' && _endpoint.match(/^:[0-9]+[/a-z0-9]{0,}/)
+          ? window.location.protocol.replace(/^http/, 'ws') + '//' + window.location.host.split(':')[0] + _endpoint
+          : ''
 
-    const endpoint = String(process?.env?.VUE_APP_WSS_ENDPOINT || '')
+    // console.log({
+    //   _endpoint,
+    //   customEndpoint
+    // })
+
+    if (customEndpoint !== '') _endpoint = options.router.options.endpoint = customEndpoint
+    const endpoint = String(_endpoint || '')
+    // console.log(endpoint)
+    Vue.prototype.$ws = new XrplClient(endpoint)
+    Vue.prototype.$localnet = false
+
+    Vue.prototype.$ws.send({ command: 'server_info' }).then(r => {
+      Vue.prototype.$localnet = r?.info?.last_close?.proposers === 0
+      if (Vue.prototype.$localnet) {
+        Vue.prototype.$events.emit('islocalnet', true)
+      }
+    })
 
     // VUE_APP_NETWORK (xrpl | xrpl_test | xahau | xahau_test | xahau_dev | local)
     // overrides the endpoint-based guess, for self-hosted networks on any domain.
@@ -18,13 +41,14 @@ export default {
       local: endpoint.match(/localhost|127.0.0.1|custom-node/)
     }
 
+    net.custom = customEndpoint !== ''
     Vue.prototype.$net = net
 
     Vue.prototype.$ws.on('ledger', ledger => Vue.prototype.$events.emit('ledger', ledger))
-    console.info('Connecting @ `plugins/xrpl`')
+    // console.info('Connecting @ `plugins/xrpl`')
     await Vue.prototype.$ws.ready()
     const state = Vue.prototype.$ws.getState()
-    console.info('Connected @ `plugins/xrpl`', state.server)
+    // console.info('Connected @ `plugins/xrpl`', state.server)
     Vue.prototype.$events.emit('connected', state.server.publicKey)
   }
 }
