@@ -2,7 +2,7 @@ import { XrplClient } from 'xrpl-client'
 
 export default {
   async install (Vue, options) {
-    const defaultEndpoint = process?.env?.VUE_APP_WSS_ENDPOINT
+    const defaultEndpoint = window.__ENV__?.VUE_APP_WSS_ENDPOINT || process.env.VUE_APP_WSS_ENDPOINT
     const customEndpoint = options.router?.options?.endpoint
       ? options.router?.options?.endpoint
       : typeof defaultEndpoint === 'string' && defaultEndpoint.match(/^\/[a-z0-9]/)
@@ -32,7 +32,7 @@ export default {
 
     // VUE_APP_NETWORK (xrpl | xrpl_test | xahau | xahau_test | xahau_dev | local)
     // overrides the endpoint-based guess, for self-hosted networks on any domain.
-    const forced = String(process?.env?.VUE_APP_NETWORK || '')
+    const forced = String(window.__ENV__?.VUE_APP_NETWORK || process.env.VUE_APP_NETWORK || '')
     const net = forced ? { [forced]: true } : {
       xrpl: endpoint === '' || endpoint.match(/xrplcluster|xrpl\.ws|xrpl\.link|s[12]\.ripple\.com/),
       xrpl_test: endpoint.match(/rippletest|\/testnet\.xrpl-labs/),
