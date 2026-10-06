@@ -54,39 +54,42 @@ export default {
       return ledgerKeys.indexOf('ledger') > -1 || ledgerKeys.indexOf('error') > -1
     },
     selectedLedgerTransactions () {
-      return this.selectedLedger?.ledger?.transactions?.map(l => {
-        const r = {
-          hash: l.hash,
-          TransactionType: l.TransactionType
-        }
-        const keys = Object.keys(l)
-        const addKeys = [
-          'Account',
-          'Destination',
-          'DestinationTag',
-          'SourceTag',
-          'Amount'
-        ]
-
-        addKeys.forEach(k => {
-          if (keys.indexOf(k) > -1) {
-            Object.assign(r, { [k]: l[k] })
+      return this.selectedLedger?.ledger?.transactions
+        ?.slice()
+        .sort((a, b) => (a.metaData?.TransactionIndex ?? 0) - (b.metaData?.TransactionIndex ?? 0))
+        .map(l => {
+          const r = {
+            hash: l.hash,
+            TransactionType: l.TransactionType
           }
-        })
+          const keys = Object.keys(l)
+          const addKeys = [
+            'Account',
+            'Destination',
+            'DestinationTag',
+            'SourceTag',
+            'Amount'
+          ]
 
-        const metadataKeys = Object.keys(l.metaData || {})
-        const addMetadataKeys = [
-          'HookExecutions',
-          'TransactionResult'
-        ]
-        addMetadataKeys.forEach(k => {
-          if (metadataKeys.indexOf(k) > -1) {
-            Object.assign(r, { [k]: l.metaData[k] })
-          }
-        })
+          addKeys.forEach(k => {
+            if (keys.indexOf(k) > -1) {
+              Object.assign(r, { [k]: l[k] })
+            }
+          })
 
-        return r
-      })
+          const metadataKeys = Object.keys(l.metaData || {})
+          const addMetadataKeys = [
+            'HookExecutions',
+            'TransactionResult'
+          ]
+          addMetadataKeys.forEach(k => {
+            if (metadataKeys.indexOf(k) > -1) {
+              Object.assign(r, { [k]: l.metaData[k] })
+            }
+          })
+
+          return r
+        })
     }
   },
   methods: {
